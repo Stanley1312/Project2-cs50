@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+                My First Web Page !
+        </title>
+        <!-- <link rel="stylesheet" href="style.css"> -->
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style4.css') }}">
+        
+        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous"> -->
+        <style>
+            .logout {
+                padding: 10px;
+                position:absolute;
+                left: 90%;
+                color: white;
+                /* background-color: black; */
+                /* overflow: hidden; */
+            }
+            .search {
+                padding: 10px;
+                position: relative;
+                left: 5%;
+            }   
+            .but {
+                padding: 5px;
+                position: relative
+                left:10%;
+                
+            }
+            .selection {
+                position: absolute;
+                left: 63%;
+            }
+            #topnav p {
+                color: white;
+                position: absolute;
+                left: 97%;
+                /* background-color: mediumseagreen; */
+                
+                
+            }
+        </style>
+        
+    <body>
+        <div id="topnav">
+            <a class="homebut" href="home.html">Home</a>
+            <a href="AboutUs.html">About Us</a>
+            <a href="Memory.html">Memory with Clicker</a>
+            <a href="Something.html">Something To Say</a>
+            <form class="logout" action="{{ url_for('logout')}}">
+                <button> Logout </button>
+            </form>
+            <form class="selection" action="{{url_for('searching')}}" method="POST">
+                <label for="selection"></label>
+                <select name="selection" id="selection">
+                    <option value="Users">Users</option>
+                    <option value="Rating">Rating</option>
+                    <option value="Title">Title</option>
+                    <option value="Date">Date</option>
+                </select>
+                <input class="search"type="search" name="search">
+                <button class="but" >Search</button>
+            </form>
+            <p> {{name}}</p>   
+        </div>     
+        <div id="Saying">
+                Do You Remember Us ?     
+        </div> 
+        <div class="container">
+            <img class="bacony" src="{{user_image}}" > 
+            <h1> ClickAI COFFEE SHOP !!!</h1>
+            <h2>The Work Space For All AI Engineers</h2>
+            <div class="login"> 
+            </div>
+        </div>
+        <div class="aleart">
+            <script>
+                function showAlert() { alert('không có dữ liệu !!'); }
+            </script>
+            {% if message == False %}
+                <script>showAlert();</script>
+            {% endif %}
+        </div>
+        
+    </body>
+    
+</html>

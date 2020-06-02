@@ -1,0 +1,180 @@
+body{
+    background-color:   white  ;
+    font-family:Arial, Helvetica, sans-serif;
+    margin: 0px;
+}
+@media (min-width:500px){
+    #topnav a {
+        float: left;
+        font-size: 20px;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        /* delete the underline */
+        padding : 13px;
+    }
+}
+@media (max-width:499px)
+{
+    #topnav a {
+        float: left;
+        font-size: 14px;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        padding : 10px;
+    }
+}
+
+#topnav {
+    background-color: black;
+    height: 5%;
+    overflow: hidden;
+}
+#topnav a:hover {
+    color:darkgreen; 
+}
+#topnav a.homebut{
+    background-color:  #85e376;
+    color: white;
+} 
+/* WORK */
+@media (min-width:500px){
+
+#WORK h1 {
+    position: absolute;
+    color: darkgreen;
+    top: 5%;
+    left: 33.5%;
+    font-size: 50px;
+}
+#WORK h2 {
+    position: absolute;
+    color:mediumseagreen;
+    top: 13%;
+    left: 38.1%;
+}  
+} 
+@media (max-width:499px){
+#WORK h1 {
+        position: absolute;
+        top: 5%;
+        left: 12%;
+        color:darkgreen;
+        font-size: 30px;
+    }
+#WORK h2
+    {
+    position: absolute;
+    top: 9%;
+    left: 3%;
+    color:mediumseagreen
+    }
+}
+/* DOOR */
+@media (min-width: 500px) {
+#Door
+    {
+        position: absolute;
+        top: 28%;
+        left: 13%;    
+        width: 700px ;
+        height: 550px;
+    }
+#Door p
+    {  
+        font-size: 24px;
+        text-align: center;
+        
+    }
+#Door img {
+        position: absolute;
+        width: 700px ;
+        height: 550px;
+}
+}
+@media (max-width: 499px) {
+#Door
+    {
+        position: absolute;
+        top: 19%;  
+        width: 100% ; 
+    }
+#Door p
+    {  
+        font-size: 15px;
+        text-align: center;
+    }
+#Door img {
+        position: absolute;
+        width: 95% ;
+        height: 300px;
+        left: 10px;
+}
+}
+/* entry-content */
+@media (min-width:500px)
+{
+    .entry-content {
+        position:absolute;
+        top: 107%;
+        left: 13%;  
+        width: 700px;
+    }
+    .entry-content p {
+        text-align: justify;
+        font-size: 18px;
+    }
+    .entry-content img {
+        width: 700px;
+        height: 550px;
+    }
+}
+@media (max-width:499px)
+{
+    .entry-content {
+        position:absolute;
+        top: 63%; 
+        width: 100%;
+    }
+    .entry-content p {
+        text-align: justify;
+        font-size: 13px;
+    }
+    .entry-content img {
+        position: relative;
+        width: 95%;
+        height: 230px;
+        left: 10px;
+    }
+}
+/* Aboutme */
+@media (min-width:800px)
+{
+    .Aboutme {
+        background-color:  #e5dddd ;
+        position: absolute;
+        top: 250px;
+        left: 1150px;
+        height: 50px;
+        width: 300px; 
+    }
+    .Aboutme p {
+        text-align: center;
+        height: 50px;
+        width: 300px; 
+        padding-bottom: 5px;
+    }
+    .Aboutme img {
+        width: 300px;
+        height: 300px;
+    } 
+}
+@media (max-width : 799px){
+    .Aboutme{
+        display: none;
+    }
+    
+}
+
+

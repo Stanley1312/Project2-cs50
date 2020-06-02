@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Result searching
+{% endblock %}
+{% block style %}
+button {
+    background: none!important;
+    border: none;
+    padding: 0!important;
+    /*optional*/
+    font-family: arial, sans-serif;
+    /*input has OS specific font-family*/
+    color: #069;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+{% endblock %}
+
+{% block body %}
+    <h1>Result searching</h1>
+        <ul>
+                {% for result in results %}
+                <a href="{{url_for('blogRender',title=result.title)}}">Title: {{ result.title }} / Author: {{ result.Author }}</a>
+                {% endfor %} 
+        </ul>
+{% endblock %}

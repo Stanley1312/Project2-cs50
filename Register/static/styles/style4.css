@@ -1,0 +1,141 @@
+/* body */
+body{
+    background-color: white;
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif
+    position: absolute;
+}
+/* bacony */
+@media (min-width:1000px) {
+    .bacony {
+        width: 100%;
+        height :50%;
+        }
+} 
+@media (max-width:999px) {
+    .bacony {
+        position: fixed;
+        top: 25%; 
+        left: 2.5%;
+        width: 800px; 
+        height :600px;
+        }
+}
+@media (max-width:800px) {
+    .bacony {    
+        width: 430px;; 
+        height :390px;
+        }
+}
+/* Saying */
+@media (min-width:500px) {
+    #Saying{
+        /* position: absolute;
+        color: #23250a;
+        font-size: 30px;
+        left: 2.4%;
+        top : 21%; 
+        font-weight: 500; */
+        display: none;
+    }   
+}
+@media (max-width:499px) {
+    #Saying{
+        position: absolute;
+        top: 21.5%;
+        left: 2%;
+        font-size: 23px;
+        font-weight: 500;
+        color:darkgreen ;
+    } 
+}     
+/* h1*/
+@media (min-width :500px)
+{
+    h1 {
+        position: absolute;
+        top: 3%;
+        left: 30%;
+        color:black;
+        font-size: 40px;
+        padding: 0;
+    }
+}
+@media (max-width :499px)
+{
+    h1 {
+        position: absolute;
+        top: 5%;
+        left: 12%;
+        color:darkgreen;
+        font-size: 30px;
+    }
+}
+@media (min-width:500px){
+    h2 {
+        position: absolute;
+        top: 10%;
+        left: 32.1%; 
+        color:  #212121  ;
+    }
+}
+@media (max-width : 499px){
+    h2 {
+        position: absolute;
+        top: 9%;
+        left: 4%;
+        color:mediumseagreen 
+    }
+}
+/* @media (min-width:800px)
+{
+    .teampic {
+        position: fixed;
+        top: 25%;
+        left: 80%;
+        width: 300px;
+        height: 300px;
+    }
+}
+p {
+    position: fixed;
+    top: 200px;
+    left: 500px;
+    font-weight: 400px;
+    color: red;
+} */
+@media (max-width:499px)
+{
+    #topnav a {
+        float: left;
+        font-size: 15px;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        padding : 10px;   
+    }
+}
+@media (min-width:500px){
+    #topnav a {
+        float: left;
+        font-size: 15px;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        /* delete the underline */
+        padding : 13px; 
+    }
+}
+#topnav {
+    background-color: black;
+    height: 10%;
+    overflow: hidden;
+    /* position: absolute; */
+}
+#topnav a:hover {
+    color:darkgreen;   
+}
+#topnav a.homebut{
+    background-color:  #85e376;
+    color: white;
+}       

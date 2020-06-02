@@ -1,0 +1,73 @@
+body{
+    background-color:   white  ;
+    font-family:Arial, Helvetica, sans-serif;
+    margin: 0px;
+}
+/* Topnv */
+@media (min-width:500px){
+    #topnav a {
+        float: left;
+        font-size: 20px;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        /* delete the underline */
+        padding : 13px;
+    }
+}
+@media (max-width:499px)
+{
+    #topnav a {
+        float: left;
+        font-size: 14px;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        padding : 10px;
+    }
+}
+#topnav {
+    background-color: black;
+    height: 5%;
+    overflow: hidden;
+}
+#topnav a:hover {
+    color:darkgreen; 
+}
+#topnav a.homebut{
+    background-color:  #85e376;
+    color: white;
+} 
+/* Memory */
+@media (min-width:500px){
+    
+    #memory h1 {
+        position: absolute;
+        color: darkgreen;
+        font-size: 50px;
+        top: 5%;
+        left: 33.5%;
+    }
+    #memory h2 {
+        position: absolute;
+        color:mediumseagreen;
+        top: 13%;
+        left: 38.1%
+    }  
+    } 
+@media (max-width:499px){
+    #memory h1 {
+            position: absolute;
+            top: 5%;
+            left: 12%;
+            color:darkgreen;
+            font-size: 30px;
+        }
+    #memory h2
+        {
+        position: absolute;
+        top: 9%;
+        left: 3%;
+        color:mediumseagreen
+        }
+    }
