@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block title %}
+    Channel infomation
+{% endblock %}
+{% block body %}
+    <h1>{{title}}</h1>
+
+    <h2>User in this channel</h2>
+    <ul>
+        {% for user in users %}
+            <li>{{ user.name }}</li>
+        {% endfor %}   
+    </ul>
+    <form action="{{ url_for('blogRender',title=title,alert=True) }}" method="post">
+        <div class="form-group">
+            <input class="form-control" name="content" placeholder="Your review" >
+        </div>
+        <input type="hidden" value={{title}} name="title">
+        <input type="hidden" value={{content}} name="content">
+        <input type="hidden" value={{author}} name="author">
+        <div class="form-group">
+            <button class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+{% endblock %}

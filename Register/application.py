@@ -19,11 +19,17 @@ def main():
 @app.route("/")
 def home():
     if 'username' in session:
-        print("---------singin----------")
-        print(session['username'])
         name = session['username']
+        all_channels = Channel.query.all()
+        print(all_channels)
+        print(type(all_channels))
+        if len(all_channels) > 0:
+            message = True
+        else:
+            message = False
+        print(message)
         full_filename = os.path.join(app.config['UPLOAD_FOLDER'],'first.jpg')
-        return render_template("home.html",user_image=full_filename,name=name)
+        return render_template("home.html",user_image=full_filename,name=name,message=message,all_channels=all_channels)
     return render_template("login.html")
 
 @app.route("/login", methods=["POST"])
@@ -82,18 +88,23 @@ def channel_of_username():
 @app.route("/channel",methods=["POST"])
 def create_channel():
     name = session['username']
-    print(2222222222222222222222)
     user = User.query.filter_by(name=name)[0]
     id_user = user.id
     title = request.form.get("title")
-    print(user)
-    print(type(user))
-    print(title)
     new_channel = Channel(title=title,creator_id=id_user)
     user.channels.append(new_channel)
     db.session.add(user)
     db.session.commit()
     return redirect(url_for('channel_of_username'))
+
+@app.route("/channel/infor/<string:title>")
+def channelRender(title):
+    channel = Channel.query.filter_by(title=title).all()[0]
+    title = channel.title
+    users = channel.users
+
+    return render_template("channel_info.html",title=title,users=users)
+
 if __name__ == "__main__":
     with app.app_context():
         main()

@@ -12,7 +12,6 @@ Tag = db.Table('link_channel_user',
 )
 class User(db.Model):
     __tablename__ = "users"
-    # __table_args__ = (db.UniqueConstraint('name'),)
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False,unique=True)
     password = db.Column(db.String, nullable=False)
@@ -24,19 +23,8 @@ class Channel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False,unique=True)
     creator_id =db.Column(db.Integer, nullable=False)
-    # users = relationship("User", secondary="tags")
     messages = db.relationship("Message", backref="channels", lazy=True)
     users= db.relationship("User",secondary=Tag)
-
-# class Tag(db.Model):
-#     __tablename__ = "tags"
-#     id = db.Column(db.Integer, primary_key=True)
-#     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-#     channel_id = db.Column(db.Integer, db.ForeignKey('channels.id'))
-#     user = relationship(User, backref=backref("tags", cascade="all, delete-orphan"))
-#     channel = relationship(Channel, backref=backref("tags", cascade="all, delete-orphan"))
-
-
 
 class Message(db.Model):
     __tablename__ = "messages"

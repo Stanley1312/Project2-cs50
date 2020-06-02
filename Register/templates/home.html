@@ -64,6 +64,15 @@
             <img class="bacony" src="{{user_image}}" > 
             <h1> ClickAI COFFEE SHOP !!!</h1>
             <h2>The Work Space For All AI Engineers</h2>
+            {% if message %}
+            {{message}}
+            {{all_channels}}
+            <ul>
+            {% for channel in all_channels %}
+                <li> <a href="{{url_for('channelRender',title=channel.title)}}">Title: {{ channel.title }} </a></li>
+            {% endfor %}
+            </ul>
+            {% endif %}
         </div>
     </body>
     
