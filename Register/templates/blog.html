@@ -3,10 +3,10 @@
     Personal Blog
 {% endblock %}
 {% block body %}
-    <h1>{{title}} Ratings: {{drone}}</h1>
+
+    <h1>{{title}}</h1>
     <h2>-----------------{{author}}-------------------</h2>
     <h2>{{content}}</h2>
-
     <h2>-----------------Comment : {{comments|length}}-----------------</h2>
     <ul>
         {% if message %}
@@ -16,38 +16,28 @@
         {% endif %}  
     </ul>
     <h3>Write your comment</h3>
-    <form action="{{ url_for('blogRender',title=title)}}" method="post">
+    <form action="{{ url_for('blogRender',title=title,alert=True) }}" method="post">
+        <div class="form-group">
+            <input class="form-control" name="content" placeholder="Your review" >
+        </div>
+        <input type="hidden" value={{title}} name="title">
         <input type="hidden" value={{content}} name="content">
         <input type="hidden" value={{author}} name="author">
-        <input type="hidden" value={{title}} name="title">
-        <label class="radio-inline"> 
-            <input type="radio"  name="drone" value=1 checked >⭐
-        </label>
-        <label class="radio-inline"> 
-            <input type="radio"  name="drone" value=2  >⭐⭐
-        </label>
-        <label class="radio-inline"> 
-            <input type="radio"  name="drone" value=3  >⭐⭐⭐
-        </label>
-        <label class="radio-inline"> 
-            <input type="radio"  name="drone" value=4  >⭐⭐⭐⭐
-        </label>
-        <label class="radio-inline"> 
-            <input type="radio"  name="drone" value=5  >⭐⭐⭐⭐⭐
-        </label>
-        <div class="form-group">
-            <input class="form-control" name="content_comment" placeholder="Your review" >
-        </div> 
         <div class="form-group">
             <button class="btn btn-primary">Submit</button>
         </div>
+
+        {% if get_flashed_messages()%}
         <div class="aleart">
             <script>
                 function showAlert() { alert('Bạn đã đánh giá rồi!!'); }
             </script>
-                {% if alert %}
-                    <script>showAlert();</script>
-                {% endif %}   
+                {% for message in get_flashed_messages() %}
+                    <div class="alert-error">Error: {{ message }}</div>
+                {% endfor %}
+             <script>showAlert();</script>
         </div>
+        {% endif %}
     </form>
+    
 {% endblock %}

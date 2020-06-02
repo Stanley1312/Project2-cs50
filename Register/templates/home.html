@@ -15,8 +15,8 @@
                 position:absolute;
                 left: 90%;
                 color: white;
-                /* background-color: black; */
-                /* overflow: hidden; */
+                / background-color: black; /
+                / overflow: hidden; /
             }
             .search {
                 padding: 10px;
@@ -37,7 +37,7 @@
                 color: white;
                 position: absolute;
                 left: 97%;
-                /* background-color: mediumseagreen; */
+                / background-color: mediumseagreen; /
                 
                 
             }
@@ -52,16 +52,8 @@
             <form class="logout" action="{{ url_for('logout')}}">
                 <button> Logout </button>
             </form>
-            <form class="selection" action="{{url_for('searching')}}" method="POST">
-                <label for="selection"></label>
-                <select name="selection" id="selection">
-                    <option value="Users">Users</option>
-                    <option value="Rating">Rating</option>
-                    <option value="Title">Title</option>
-                    <option value="Date">Date</option>
-                </select>
-                <input class="search"type="search" name="search">
-                <button class="but" >Search</button>
+            <form class="channel" action="{{ url_for('channel_of_username')}}">
+                <button> Channel list </button>
             </form>
             <p> {{name}} </p>   
         </div>     
@@ -72,18 +64,7 @@
             <img class="bacony" src="{{user_image}}" > 
             <h1> ClickAI COFFEE SHOP !!!</h1>
             <h2>The Work Space For All AI Engineers</h2>
-            <div class="login"> 
-            </div>
         </div>
-        <div class="aleart">
-            <script>
-                function showAlert() { alert('không có dữ liệu !!'); }
-            </script>
-            {% if message == False %}
-                <script>showAlert();</script>
-            {% endif %}
-        </div>
-        
     </body>
     
 </html>
