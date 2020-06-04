@@ -21,7 +21,7 @@ button {
     <h1>Result searching</h1>
         <ul>
                 {% for result in results %}
-                <a href="{{url_for('blogRender',title=result.title)}}">Title: {{ result.title }} / Author: {{ result.Author }}</a>
+                <a href="{{url_for('blogRender',title=result.title,alert=False)}}">Title: {{ result.title }} / Author: {{ result.Author }}</a>
                 {% endfor %} 
         </ul>
 {% endblock %}

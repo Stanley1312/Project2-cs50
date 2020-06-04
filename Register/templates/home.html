@@ -15,8 +15,8 @@
                 position:absolute;
                 left: 90%;
                 color: white;
-                /* background-color: black; */
-                /* overflow: hidden; */
+                /* / background-color: black; /
+                / overflow: hidden; / */
             }
             .search {
                 padding: 10px;
@@ -25,7 +25,7 @@
             }   
             .but {
                 padding: 5px;
-                position: relative
+                position: relative;
                 left:10%;
                 
             }
@@ -37,7 +37,7 @@
                 color: white;
                 position: absolute;
                 left: 97%;
-                /* background-color: mediumseagreen; */
+                /* / background-color: mediumseagreen; / */
                 
                 
             }
@@ -52,7 +52,7 @@
             <form class="logout" action="{{ url_for('logout')}}">
                 <button> Logout </button>
             </form>
-            <form class="channel" action="{{ url_for('channel')}}">
+            <form class="channel" action="{{ url_for('channel_of_username')}}">
                 <button> Channel list </button>
             </form>
             <p> {{name}} </p>   
@@ -64,7 +64,28 @@
             <img class="bacony" src="{{user_image}}" > 
             <h1> ClickAI COFFEE SHOP !!!</h1>
             <h2>The Work Space For All AI Engineers</h2>
+            
+            {% if message %}
+            {{message}}
+            {{all_channels}}
+            <ul>
+            {% for channel in all_channels %}
+                <li><a href="{{url_for('channelRender',title=channel.title)}}">Title: {{ channel.title }} </a></li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+
+            <ul>
+                {% for user_sent in list_user_sent %}
+                    {% if user_sent[2].flag_direction %}
+                        <li>{{ user_sent[0] }} want to add you to their channel {{ user_sent[1] }}</li>
+                    {% else %}
+                        <li>{{ user_sent[0] }} want to join your channel {{ user_sent[1] }}</li>
+                    {% endif %}
+                    <a href="{{ url_for('add_user_or_not', flag=0, channel_title=user_sent[1], user_name=user_sent[0], request_id=user_sent[2].id) }}">Accept</a>
+                    <a href="{{ url_for('add_user_or_not', flag=1, channel_title=user_sent[1], user_name=user_sent[0], request_id=user_sent[2].id) }}">Decline</a>
+                {% endfor %}
+            </ul>
         </div>
     </body>
-    
 </html>

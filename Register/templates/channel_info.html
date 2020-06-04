@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block title %}
+    Channel infomation
+{% endblock %}
+{% block body %}
+    <h1>{{channel.title}}</h1>
+
+    <h2>User in this channel</h2>
+    <ul>
+        {% for user in users %}
+            <li>{{ user.name }}</li>
+        {% endfor %}
+    </ul>
+
+    <form action="{{ url_for('send_request', flag=1) }}" method="post">
+        <input type="hidden" value={{channel.id}} name="channel_id">
+        <div class="form-group">
+            <button class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+
+    <form action="{{ url_for('send_request', flag=0) }}" method="post">
+        <input name="user_name">
+        <input type="hidden" value={{channel.id}} name="channel_id">
+        <div class="form-group">
+            <button class="btn btn-primary">Add</button>
+        </div>
+    </form>
+{% endblock %}
