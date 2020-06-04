@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify, request,session,redirect,url_for
 from models import *
+from flask_socketio import SocketIO
 import os
 
 PEOPLE_FOLDER = os.path.join('static', 'img')
@@ -10,9 +11,12 @@ app.config["SQLALCHEMY_DATABASE_URI"] = r"postgresql://postgres:1@localhost:5432
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config['UPLOAD_FOLDER'] = PEOPLE_FOLDER
 app.secret_key = "abc"  
+app.config['SECRET_KEY'] = 'vnkdjnfjknfl1232#'
 db.init_app(app)
+socketio = SocketIO(app)
 list_drone = [] 
 title_name = []
+mess_list = []
 
 
 def main():
@@ -85,6 +89,7 @@ def channel():
     if request.method == "POST":
         channelname = request.form.get('channelname')
         print('--------------channelname----------')
+        print(channelname)
         add_channel = Channel.query.filter_by(title=channelname).first()
         if add_channel is None:
             user = User.query.filter_by(name=name)[0]
@@ -105,12 +110,56 @@ def channel():
     print(list_channel)
     print(message)
     return render_template("channel.html",alert=alert,channel=list_channel,message=message)
-@app.route("/channel_detail")
-def channel_detail():
+@app.route("/channel_detail/<string:title>")
+def channel_detail(title):
+    print("--------------title---------------")
+    print(title)
+    name = session['username']  
+    session['channel'] = title
+    print(name)
+    return render_template("session.html",title=title,username=name)
+
+def messageReceived(methods=['GET', 'POST']):
+    print('message was received!!!')
+@socketio.on('my notice')
+def notice(json, methods=['GET', 'POST']):
+    print('received my event: ' + str(json))
+    title = json.get('title')
+    mess_data = Message.query.filter_by(channel=title).all()
+    print("------------messdata------------")
+    print(mess_data)
+    for mess in mess_data:
+        username = mess.user
+        messages = mess.content
+        data = {"user_name" : username,
+                "message" : messages
+                }
+        socketio.emit('my response', data, callback=messageReceived)
+@socketio.on('my event')
+def handle_my_custom_event(json, methods=['GET', 'POST']):
+    print('received my event: ' + str(json))
+    # print(type(json))
+    print(json.get('user_name'))
+    print(json.get('message'))
+    print(json.get('title'))
     
+    user_name = json.get('user_name')
+    content = json.get('message')
+    title = json.get('title')
+    message = Message(content=content,user=user_name,channel=title)
+    db.session.add(message)
+    db.session.commit()
+    mess_data = Message.query.filter_by(channel=title).all()
+    print("------------messdata------------")
+    print(mess_data)
+    
+    socketio.emit('my response', json, callback=messageReceived)
 
-
-
+    
+    
 if __name__ == "__main__":
+    socketio.run(app, debug=True)
     with app.app_context():
         main()
+    
+    
