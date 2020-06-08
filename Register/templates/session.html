@@ -58,14 +58,14 @@
         console.log( msg )
         if( typeof msg.user_name !== 'undefined' ) {
           $( 'h3' ).remove()
-          $( 'div.message_holder' ).append('<b>'+msg.user_name+': '+msg.message+'<div class="delete" style="color: #000">X</div></b>')
+          $( 'div.message_holder' ).append('<b>'+msg.user_name+': '+msg.message+'-'+msg.id+'<div class="delete" style="color: #000">X</div></b>')
         }
         $(document).ready(function(){
         $(".delete").on("click", function(){
           $(this).closest("b").remove(); 
           var text = $(this).closest("b").text()
           socket.emit('delete',{
-            data : text
+            data : text 
           })
         });
       });
