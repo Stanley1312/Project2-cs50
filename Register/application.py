@@ -1,6 +1,6 @@
 from flask import Flask, render_template, jsonify, request,session,redirect,url_for
 from models import *
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, join_room, leave_room
 import os
 
 PEOPLE_FOLDER = os.path.join('static', 'img')
@@ -16,7 +16,7 @@ db.init_app(app)
 socketio = SocketIO(app)
 list_drone = [] 
 title_name = []
-mess_list = []
+TITLE = ""
 
 
 def main():
@@ -24,6 +24,9 @@ def main():
 
 @app.route("/")
 def home():
+    if 'channel' in session :
+        title = session['channel']
+        return redirect(url_for('channel_detail',title=title))
     if 'username' in session:
         print("---------singin----------")
         print(session['username'])
@@ -54,19 +57,12 @@ def register():
 @app.route("/home", methods=["POST"])
 def login():
     """Login."""
-    # Get form informationg
-    # displayname  = request.args.get("displayname")
+
     name = request.form.get("name")
     password = request.form.get("password")
     # print("---davaoroi-----")
     
     session['username']= name
-    # if 'username' in session:
-    #     user = session['username']
-    #     print(user)
-    # print("adfadfkasndfoasdnfasdf")
-    # # Add use
-    
     if User.query.filter_by(name=name,password=password).first() is None:
 
         return render_template("register.html")
@@ -77,7 +73,13 @@ def login():
 @app.route("/register")
 def turn_back_toregister():
     return render_template("register.html")
-
+@app.route("/goback")
+def goback():
+    # session.pop('username', None)
+    # return render_templat("channel.html")
+    if 'channel' in session :
+        session.pop('channel',None)
+    return redirect(url_for('channel'))
 @app.route("/home")
 def logout():
     session.pop('username', None)
@@ -112,17 +114,16 @@ def channel():
     return render_template("channel.html",alert=alert,channel=list_channel,message=message)
 @app.route("/channel_detail/<string:title>")
 def channel_detail(title):
-    print("--------------title---------------")
-    print(title)
     name = session['username']  
     session['channel'] = title
-    print(name)
     return render_template("session.html",title=title,username=name)
 
-def messageReceived(methods=['GET', 'POST']):
+def messageReceived():
     print('message was received!!!')
+
 @socketio.on('my notice')
-def notice(json, methods=['GET', 'POST']):
+def notice(json):
+    
     print('received my event: ' + str(json))
     title = json.get('title')
     mess_data = Message.query.filter_by(channel=title).all()
@@ -135,12 +136,28 @@ def notice(json, methods=['GET', 'POST']):
                 "message" : messages
                 }
         socketio.emit('my response', data, callback=messageReceived)
+@socketio.on('join')
+def on_join(data):
+    username = data['username']
+    room = data['room']
+    join_room(room)
+    socketio.send(username + ' has entered the room.', room=room)
+    print(username + 'has entered the room '+ room)
+@socketio.on('leave')
+def on_leave(data):
+    username = data['username']
+    room = data['room']
+    leave_room(room)
+    socketio.send(username + ' has left the room.', room=room)
+    print(username + 'has LEFT the room '+ room)
+
 @socketio.on('my event')
-def handle_my_custom_event(json, methods=['GET', 'POST']):
+def handle_my_custom_event(json):
     print('received my event: ' + str(json))
     # print(type(json))
     print(json.get('user_name'))
     print(json.get('message'))
+    print("-TITLE------------------")
     print(json.get('title'))
     
     user_name = json.get('user_name')
@@ -152,11 +169,18 @@ def handle_my_custom_event(json, methods=['GET', 'POST']):
     mess_data = Message.query.filter_by(channel=title).all()
     print("------------messdata------------")
     print(mess_data)
-    
-    socketio.emit('my response', json, callback=messageReceived)
-
-    
-    
+    socketio.emit('my response', json, callback=messageReceived,room=title,broadcast=True)
+@socketio.on('delete')
+def delete_content(data):
+    print('Receive deleted data ' + str(data))
+    start = ": "
+    end = "X"
+    data = data.get('data')
+    data = ((data.split(start))[1].split(end)[0])
+    print(data)
+    Message.query.filter_by(content=data).delete()
+    db.session.commit()
+    print('---------DELETED------------')
 if __name__ == "__main__":
     socketio.run(app, debug=True)
     with app.app_context():

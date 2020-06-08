@@ -17,8 +17,7 @@ def handle_my_custom_event(json, methods=['GET', 'POST']):
     print('received my event: ' + str(json))
     print(type(json))
     print(json.get('user_name'))
-    user_name = json.get('user_name')
-    content = json.get('user_input')
+    
     socketio.emit('my response', json, callback=messageReceived)
 
 

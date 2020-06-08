@@ -8,7 +8,7 @@
     
     <h3 style='color: #ccc;font-size: 30px;'>No message yet..</h3>
     <div class="message_holder"></div>
-
+    <a class="out" href="{{url_for('goback')}}">Go back</a>
     <form action="" method="POST">
       <!-- <input type="text" class="username" placeholder="User Name"/> -->
       <input type="text" class="message" placeholder="Messages"/>
@@ -20,36 +20,58 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
     <!-- <meta id="data-title" data-title="{{title}}"> -->
     <script type="text/javascript">
-      var socket = io.connect('http://' + document.domain + ':' + location.port);
+      var title = "{{title}}"
+      var name = "{{username}}"
+      var socket = io.connect('http://' + document.domain + ':' + location.port)
       socket.on( 'connect', function() {
-        var title = "{{title}}"
+      var title = "{{title}}"
         socket.emit( 'my notice', {
           data: 'User Connected',
           title : title
         } )
+        socket.emit('join', {
+          room : title,
+          username : name
+        })
+      })
+        $('.out').on("click",function(){
+          socket.emit('leave', {
+          room : title,
+          username : name
+        })
+        })
         var form = $( 'form' ).on( 'submit', function( e ) {
           e.preventDefault()
         //   let user_name = $( 'input.username' ).val()
           var user_name ="{{username}}";
           var title = "{{title}}"
           let user_input = $( 'input.message' ).val()
-          var time = e.timeStamp;
           socket.emit( 'my event', {
                 user_name : user_name,
                 message : user_input,
                 title : title,
-                time : time
+                // time : time
             })
           $( 'input.message' ).val( '' ).focus()
         } )
-      } )
       socket.on( 'my response', function( msg ) {
         console.log( msg )
         if( typeof msg.user_name !== 'undefined' ) {
           $( 'h3' ).remove()
-          $( 'div.message_holder' ).append( '<div><b style="color: #000">'+msg.user_name+'</b> '+msg.message+'</div>' )
+          $( 'div.message_holder' ).append('<b>'+msg.user_name+': '+msg.message+'<div class="delete" style="color: #000">X</div></b>')
         }
+        $(document).ready(function(){
+        $(".delete").on("click", function(){
+          $(this).closest("b").remove(); 
+          var text = $(this).closest("b").text()
+          socket.emit('delete',{
+            data : text
+          })
+        });
+      });
       })
+      
     </script>
+    
   </body>
   </html>
